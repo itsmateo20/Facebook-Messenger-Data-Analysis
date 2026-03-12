@@ -1,2 +1,3 @@
 # requirements.txt
-tkinter
+# tkinter is part of Python's standard library and does not need to be installed via pip.
+matplotlib
