@@ -1,38 +1,106 @@
 # Messenger Data Analyzer
 
-## Overview
+Analyze Facebook Messenger export files (`message_*.json`) with:
 
-This Python script, along with the accompanying README, was created by **[OpenAI's language model](chat.openai.com)**. The script analyzes Facebook Messenger data to calculate the total call duration across conversations. It reads JSON files containing message data and extracts call durations for analysis.
+- A minimal dark web dashboard (interactive charts + stat cards)
+- A Python desktop workflow (`matplotlib`) for local analysis
 
-## Preview
+## Current Web Dashboard Features
 
-You can preview the script function on the page at **[https://itsmateo20.github.io/](https://itsmateo20.github.io/Facebook-Messenger-Call-Duration-Analysis/)** that is also made by **[OpenAI's language model](chat.openai.com)**
-![image](https://github.com/ItsMateo20/Facebook-Messenger-Call-Duration-Analysis/assets/84156177/9ad6d7b7-8f66-4a72-9f4d-3acd9096799f)
+The browser analyzer now parses and visualizes a broad set of stats directly from selected `message_*.json` files.
 
-## Features
+### Stat Cards
 
-- Calculates total call duration from multiple JSON files.
-- Provides a user-friendly interface to select the folder containing Messenger JSON files.
+- Total call duration
+- Most active day
+- Top emojis
+- Messages sent (total)
+- Most messages (top sender)
+- Average words per message
+- Total attachments
+- Total reactions
+
+### Charts
+
+- Top words
+- Calls started per participant
+- Top emojis
+- Messages per participant
+- Media and attachment types
+- Activity by weekday
+- Activity by hour
+
+### Parsing/Filtering Details
+
+- Handles common Messenger mojibake text issues (improves emoji/text detection)
+- Counts text and non-text messages
+- Aggregates media types: photos, videos, audio, GIFs, files, stickers, shares
+- Includes unsent/reaction/call-related metadata where present
+
+## Python Analyzer
+
+`main.py` provides a local Python workflow with `matplotlib` charts and summary output.
+
+## Project Structure
+
+- `index.html` - Web UI
+- `src/RunAnalysis.js` - Browser-side parsing, aggregation, and chart rendering
+- `src/styles.css` - Minimal dark theme styles
+- `src/GetCurrentYear.js` - Footer year helper
+- `main.py` - Python analysis entry point
+- `requirements.txt` - Python dependencies
 
 ## Requirements
 
-- Python 3.8 or above
-- Dependencies are listed in `requirements.txt`
-- Data download from [facebook](https://accountscenter.facebook.com/info_and_permissions/dyi/)
+### Web Dashboard
+
+- Modern browser
+- Internet connection (Chart.js is loaded from CDN)
+
+### Python Workflow
+
+- Python 3.8+
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
 
 ## Usage
 
-1. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-2. **Run script**
-   ```bash
-   python main.py
-   ```
-3. **Select conversation folder containing the message_*.json files**
-4. **Duration gets outputed in the console.**
+### Option 1: Web Dashboard
 
-   **Full script:**
-   ```bash
-   pip install -r requirements.txt & python main.py
-   ```
+1. Open `index.html` in a browser.
+2. Click **Select Files** and choose one or more `message_*.json` files.
+3. Click **Run Analysis**.
+4. Review cards and charts.
+
+If the page appears stale after updates, hard refresh once (`Ctrl+F5`).
+
+### Option 2: Python Analyzer
+
+1. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+1. Run:
+
+```bash
+python main.py
+```
+
+1. Select the conversation folder containing `message_*.json` files.
+2. View terminal summary and generated charts.
+
+## Data Source
+
+Export Messenger conversation data from Meta Accounts Center, then use the conversation directory containing `message_*.json`.
+
+## Privacy and Scope
+
+- Intended for local personal analytics.
+- Not affiliated with Meta.
+- Keep exported conversation data private.
