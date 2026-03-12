@@ -1,127 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messenger Data Analyzer</title>
-    <link rel="stylesheet" href="./src/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Messenger Data Analyzer</title>
+        <link rel="stylesheet" href="./src/styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    </head>
 
-<body>
-    <header>
-        <div class="header-inner">
-            <div class="header-icon">💬</div>
-            <h1>Messenger Data Analyzer</h1>
-            <p class="subtitle">Visualize your Facebook Messenger conversation stats</p>
-        </div>
-    </header>
+    <body>
+        <header>
+            <div class="header-inner">
+                <div class="header-icon">💬</div>
+                <h1>Messenger Data Analyzer</h1>
+                <p class="subtitle">Visualize your Facebook Messenger conversation stats</p>
+            </div>
+        </header>
 
-    <main>
-        <section class="upload-section">
-            <label for="fileInput" class="upload-area" id="uploadArea">
-                <div class="upload-icon">📂</div>
-                <p>Click to select your <code>message_*.json</code> files</p>
-                <span class="file-count" id="fileCount">No files selected</span>
-            </label>
-            <input type="file" id="fileInput" multiple accept=".json" onchange="updateFileCount(this)" />
-            <button type="button" id="runBtn" onclick="runAnalysis()">Run Analysis</button>
-        </section>
+        <main>
+            <section class="upload-section">
+                <label for="fileInput" class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📂</div>
+                    <p>Click to select your <code>message_*.json</code> files</p>
+                    <span class="file-count" id="fileCount">No files selected</span>
+                </label>
+                <input type="file" id="fileInput" multiple accept=".json" onchange="updateFileCount(this)" />
+                <button type="button" id="runBtn" onclick="runAnalysis()">Run Analysis</button>
+            </section>
 
-        <div id="loadingIndicator" class="loading hidden">
-            <div class="spinner"></div>
-            <p>Analyzing your data&hellip;</p>
-        </div>
-
-        <section id="resultsSection" class="hidden">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">📞</div>
-                    <div class="stat-label">Total Call Duration</div>
-                    <div class="stat-value" id="callDuration">&mdash;</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📅</div>
-                    <div class="stat-label">Most Active Day</div>
-                    <div class="stat-value" id="mostActiveDay">&mdash;</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">😄</div>
-                    <div class="stat-label">Top Emojis</div>
-                    <div class="stat-value emoji-row" id="mostUsedEmojis">&mdash;</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">💬</div>
-                    <div class="stat-label">Messages Sent</div>
-                    <div class="stat-value" id="totalMessages">&mdash;</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">👤</div>
-                    <div class="stat-label">Most Messages</div>
-                    <div class="stat-value" id="topSender">&mdash;</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">✍️</div>
-                    <div class="stat-label">Avg Words / Message</div>
-                    <div class="stat-value" id="avgWordsPerMessage">&mdash;</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📎</div>
-                    <div class="stat-label">Attachments</div>
-                    <div class="stat-value" id="totalAttachments">&mdash;</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">❤️</div>
-                    <div class="stat-label">Reactions</div>
-                    <div class="stat-value" id="totalReactions">&mdash;</div>
-                </div>
+            <div id="loadingIndicator" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Analyzing your data&hellip;</p>
             </div>
 
-            <div class="charts-grid">
-                <div class="chart-card">
-                    <h3>Top 10 Words</h3>
-                    <div class="chart-wrapper"><canvas id="wordsChart"></canvas></div>
+            <section id="resultsSection" class="hidden">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📞</div>
+                        <div class="stat-label">Total Call Duration</div>
+                        <div class="stat-value" id="callDuration">&mdash;</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-label">Most Active Day</div>
+                        <div class="stat-value" id="mostActiveDay">&mdash;</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">😄</div>
+                        <div class="stat-label">Top Emojis</div>
+                        <div class="stat-value emoji-row" id="mostUsedEmojis">&mdash;</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💬</div>
+                        <div class="stat-label">Messages Sent</div>
+                        <div class="stat-value" id="totalMessages">&mdash;</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👤</div>
+                        <div class="stat-label">Most Messages</div>
+                        <div class="stat-value" id="topSender">&mdash;</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✍️</div>
+                        <div class="stat-label">Avg Words / Message</div>
+                        <div class="stat-value" id="avgWordsPerMessage">&mdash;</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📎</div>
+                        <div class="stat-label">Attachments</div>
+                        <div class="stat-value" id="totalAttachments">&mdash;</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">❤️</div>
+                        <div class="stat-label">Reactions</div>
+                        <div class="stat-value" id="totalReactions">&mdash;</div>
+                    </div>
                 </div>
-                <div class="chart-card">
-                    <h3>Calls Started per Participant</h3>
-                    <div class="chart-wrapper"><canvas id="callsChart"></canvas></div>
-                </div>
-                <div class="chart-card wide">
-                    <h3>Top 10 Emojis</h3>
-                    <div class="chart-wrapper"><canvas id="emojisChart"></canvas></div>
-                </div>
-                <div class="chart-card wide">
-                    <h3>Messages per Participant</h3>
-                    <div class="chart-wrapper"><canvas id="messagesBySenderChart"></canvas></div>
-                </div>
-                <div class="chart-card">
-                    <h3>Media & Attachment Types</h3>
-                    <div class="chart-wrapper"><canvas id="mediaChart"></canvas></div>
-                </div>
-                <div class="chart-card">
-                    <h3>Activity by Weekday</h3>
-                    <div class="chart-wrapper"><canvas id="weekdayChart"></canvas></div>
-                </div>
-                <div class="chart-card">
-                    <h3>Activity by Hour</h3>
-                    <div class="chart-wrapper"><canvas id="hourlyChart"></canvas></div>
-                </div>
-            </div>
-        </section>
-    </main>
 
-    <footer>
-        <p>
-            Messenger Data Analyzer &copy; <span id="currentYear"></span> |
-            Assisted by Claude Sonnet 4.6 |
-            <a href="https://github.com/ItsMateo20/Facebook-Messenger-Call-Duration-Analysis" target="_blank" rel="noopener noreferrer">Source Code</a> |
-            Not affiliated with Meta Inc.
-        </p>
-    </footer>
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Top 10 Words</h3>
+                        <div class="chart-wrapper"><canvas id="wordsChart"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Calls Started per Participant</h3>
+                        <div class="chart-wrapper"><canvas id="callsChart"></canvas></div>
+                    </div>
+                    <div class="chart-card wide">
+                        <h3>Top 10 Emojis</h3>
+                        <div class="chart-wrapper"><canvas id="emojisChart"></canvas></div>
+                    </div>
+                    <div class="chart-card wide">
+                        <h3>Messages per Participant</h3>
+                        <div class="chart-wrapper"><canvas id="messagesBySenderChart"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Media & Attachment Types</h3>
+                        <div class="chart-wrapper"><canvas id="mediaChart"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Activity by Weekday</h3>
+                        <div class="chart-wrapper"><canvas id="weekdayChart"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Activity by Hour</h3>
+                        <div class="chart-wrapper"><canvas id="hourlyChart"></canvas></div>
+                    </div>
+                </div>
+            </section>
+        </main>
 
-    <script src="./src/RunAnalysis.js"></script>
-    <script src="./src/GetCurrentYear.js"></script>
-</body>
+        <footer>
+            <p>
+                Messenger Data Analyzer &copy; <span id="currentYear"></span> |
+                Assisted by Claude Sonnet 4.6 |
+                <a href="https://github.com/ItsMateo20/Facebook-Messenger-Call-Duration-Analysis" target="_blank"
+                    rel="noopener noreferrer">Source Code</a> |
+                Not affiliated with Meta Inc.
+            </p>
+        </footer>
+
+        <script src="./src/RunAnalysis.js"></script>
+        <script src="./src/GetCurrentYear.js"></script>
+    </body>
 
 </html>
